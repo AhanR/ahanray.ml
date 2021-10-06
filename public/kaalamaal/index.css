@@ -1,0 +1,243 @@
+*{
+    font-size: x-large;
+    font-family: sans-serif;
+    font-weight: 600;
+    color: white;
+}
+
+::-moz-selection {
+    color: white;
+    background: rgb(233, 93, 13);
+}
+  
+::selection {
+    color: white;
+    background: rgb(233, 93, 13);
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    background: url(./background-desktop.svg);
+    background-size: cover;
+}
+
+.loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+}
+
+section{
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 1ch;
+    width: claculate(100vw - 2ch);
+    height: claculate(40vw - 2ch);
+    display: flex;
+    flex-direction: row;
+    flex: none;
+    justify-content: space-evenly;
+}
+
+section:nth-child(2n + 1){
+    background: black;
+}
+
+section:nth-child(2n){
+    background-size: cover;
+}
+
+section.profile>.profile.background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: rgba(0, 0, 0, 0.53);
+}
+
+section.profile{
+    background: url(https://i.scdn.co/image/ab6761860000101653162cf71c602bc7f1fc47f8);
+    background-size: cover;
+}
+
+section.letmego{
+    background: linear-gradient(0.25turn,rgb(117,1,211),rgb(211, 1, 183))
+}
+
+section>div{
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    height: 40vw;
+    width: 40vw;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+span.name{
+    font-size: 3em;
+}
+
+span.song{
+    font-size: 1.5em;
+}
+
+img{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 75%;
+    height: 75%;
+    border-radius: 1ch;
+    border: white solid 3px;
+}
+
+section>div>.profile{
+    border-radius: 50vw;
+}
+
+p{
+    text-align: center;
+}
+
+section>div>p>a{
+    text-decoration: none;
+    font-weight: 300;
+}
+
+button{
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    margin-top: 1ch;
+    padding-left: 2ch;
+    padding-right: 2ch;
+    padding-top: 1ch;
+    padding-bottom: 1ch;
+    border: none;
+    border-radius: 1ch;
+    color: white;
+    background: linear-gradient(0.25turn,rgb(216, 178, 11),rgb(233, 93, 13),rgb(255, 0, 0));
+    background-size: 200%;
+    background-position: left;
+    font-weight: 400;
+    transition: background-position 0.7s ease;
+}
+
+section:nth-child(2n) button{
+    background: linear-gradient(0.25turn,rgba(0,0,0,0),rgba(0,0,0,0),rgb(233, 93, 13));
+    background-size: 300%;
+    background-position: left;
+    border: solid 2px white;
+    transition:  background-position 0.7s;
+}
+
+button:hover, button:focus{
+    cursor: pointer;
+    background-position: right;
+}
+
+section:nth-child(2n) button:hover, button:focus{
+    background-position: right;
+}
+
+footer{
+    margin: 0;
+    padding: 1ch;
+    width: calculate(100vw - 2ch);
+    /* background: linear-gradient(0.25turn,rgb(216, 178, 11),rgb(233, 93, 13),rgb(247, 64, 18)); */
+    background: black;
+    background-size: 200%;
+    background-position: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    transition: background-position 0.7s ease;
+}
+
+footer:hover{
+    background-position: right;
+}
+
+footer>a{
+    color: white;
+    font-weight: 300;
+    font-size: large;
+    text-decoration: none;
+}
+
+footer>span{
+    box-sizing: border-box;
+    margin-top: 30px;
+    font-weight: 300;
+    width: 100vw;
+    font-size: medium;
+    text-align: center;
+}
+
+@media (max-aspect-ratio : 35/29) {
+
+    span.name{
+        font-size: 1.5em;
+    }
+    
+    span.song{
+        font-size: 1em;
+    }
+
+    section{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    section>div{
+        align-items: center;
+    }
+
+    section>div:nth-child(1){
+        width: 95vw;
+        height: 95vw;
+    }
+
+    section>div:nth-child(2){
+        min-height: 20vw;
+        height: max-content;
+    }
+
+    button:hover,button:focus{
+        background-position: left;
+    }
+
+    footer{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer>a{
+        margin: 1ch;
+    }
+
+    footer:hover{
+        background-position: left;
+    }
+}

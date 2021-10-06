@@ -1,0 +1,270 @@
+*{
+    --background-colour : #B5EAEA;
+    --highlight-colour : #543b22;
+    --inactive-colour : #C49211;
+    --font-colour : #251a0f;
+    --font-highlight-colour : rgb(255, 255, 255);
+    font-family: 'Montserrat', sans-serif;
+    font-size: x-large;
+    color: var(--font-colour);
+    scrollbar-width: none;
+}
+
+html{
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: max-content;
+    min-width: 100vw;
+    width: max-content;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: var(--background-colour);
+}
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.loader{
+    position: sticky;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    padding: 0.5em;
+    background: var(--background-colour);
+    font-size: 1.5em;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+i{
+    transition: color 0.4s ease-in-out;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    margin: 0;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background: none;
+    z-index: 1;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+nav i{
+    width: 2em;
+    height: 2em;
+    color: var(--inactive-colour);
+}
+
+nav a:hover i{
+    color: var(--highlight-colour);
+}
+
+main{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: none;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    scroll-snap-type: both mandatory;
+    scroll-behavior: smooth;
+}
+
+main::-webkit-scrollbar{
+    display: block;
+}
+
+.section{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    margin-bottom: 2em;
+    padding: 0;
+    padding-top: 3em;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    box-sizing: border-box;
+    background: none;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex: none;
+}
+
+.content{
+    display: inline-block;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text{
+    max-width: 80%;
+    padding: 0;
+    margin: 0;
+    font-size: 1.5em;
+    word-wrap: normal;
+    color: var(--font-colour);
+}
+
+.text p{
+    font-style: italic;
+    color: var(--font-colour);
+}
+
+@keyframes arrowX {
+    0%   {transform: translate(-50%);}
+    50%  {transform: translate(50%);}
+    100% {transform: translate(-50%);}
+}
+
+.content a{
+    width: 20%;
+    height: 100%;
+    min-height: max-content;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content a i{
+    animation: infinite arrowX 2s;
+    outline: none;
+    border: none;
+}
+
+.content a:hover i{
+    color: var(--highlight-colour);
+}
+
+.links{
+    font-style: italic;
+}
+
+.links i{
+    width: 1em;
+    height: 1em;
+    color: var(--inactive-colour);
+    margin-right: 0.5em;
+}
+
+.links a:hover i{
+    color: var(--highlight-colour);
+}
+
+.mobile{
+    display: none;
+}
+
+/* this can re reenabled */
+/* .desktop{
+    display: block;
+} */
+
+@media (max-aspect-ratio: 1/1) {
+    @keyframes arrowY {
+        0%   {transform: translateY(-50%);}
+        50%  {transform: translateY(50%);}
+        100% {transform: translateY(-50%);}
+    }
+
+    .loader{
+        text-align: center;
+        align-items: center;
+    }
+    
+    .firstPage::before{
+        content: "scroll down or";
+    }
+
+    main{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow: scroll;
+    }
+
+    main::-webkit-scrollbar{
+        display: none;
+    }
+
+    .section{
+        align-items: center;
+    }
+
+    .content{
+        width: 90%;
+        justify-content: center;
+    }
+
+    .text{
+        text-align: center;
+        width: max-content;
+        max-width: 90%;
+    }
+
+    .mobile{
+        display: block;
+        width: 3em;
+        height: 3em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+    }
+
+    .mobile i{
+        animation: arrowY 2s infinite;
+    }
+    
+    .desktop,.content a{
+        display: none;
+        opacity: 0;
+        z-index: -50;
+    }
+
+    .links{
+        text-align: center;
+    }
+}
