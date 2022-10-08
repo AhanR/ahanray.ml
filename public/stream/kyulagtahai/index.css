@@ -1,7 +1,11 @@
 *{
     --opacity-background : 1;
-    --background : black;
-    --background-colour : black;
+    --background : repeating-radial-gradient(circle,
+                                            rgba(108,222,52,var(--opacity-background)) 0px, 
+                                            rgba(108,222,52,var(--opacity-background)) 20px,
+                                            rgba(242,55,119,var(--opacity-background)) 21px,
+                                            rgba(242,55,119,var(--opacity-background)) 40px);
+    --background-colour : rgba(242,55,119);
     --foreground-colour : white;
     font-size: 1.3em;
     font-weight: 600;
