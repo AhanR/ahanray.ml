@@ -55,5 +55,5 @@ node_modules/
 
 #firebase
 firebase.json
-.firebase
+.firebase/*
 *.cache
