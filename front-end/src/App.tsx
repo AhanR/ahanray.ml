@@ -1,33 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Menu from "./components/menu/menu";
+import Home from "./pages/home";
+import Projects from "./pages/projects";
+import Skills from "./pages/skills";
+import Achievements from "./pages/achievements";
+import More from "./pages/more";
+import Stream from "./pages/stream";
+import Status from "./components/status/status";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home/>,
+    },
+    {
+      path: "/projects",
+      element: <Projects/>,
+    },
+    {
+      path: "/skills",
+      element: <Skills/>,
+    },
+    {
+      path: "/achievements",
+      element: <Achievements/>,
+    },
+    {
+      path: "/more",
+      element: <More/>,
+    },
+    {
+      path: "/stream",
+      element: <Stream/>,
+    },
+  ]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <Status>
+          <RouterProvider router={router} />
+          <Menu/>
+        </Status>
     </>
   )
 }

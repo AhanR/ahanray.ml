@@ -1,0 +1,10 @@
+.statusOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 2ch;
+    z-index: 1000;
+    box-sizing: border-box;
+}
