@@ -7,6 +7,8 @@
     padding: 0;
     margin: 0;
     background-color: #FF7535;
-    display: block;
+    display: grid;
+    justify-content: center;
+    align-items: center;
     z-index: -1;
 }

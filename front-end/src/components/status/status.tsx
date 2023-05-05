@@ -1,13 +1,30 @@
-import { createContext } from "react"
+import { createContext, useEffect, useState } from "react"
 import styles from "./status.module.css"
+import { findNext } from "../Routing/router";
 
 export const pagePadding = createContext({x:"2ch", y:"4ch"})
 export default function Status(props:any) {
 
+    let location = props.location;
+    const [bottomText, setBottomText] = useState("next");
+    const [topText, setTopText] = useState("scroll down for next page")
+    const [showLocation, setShowLocation] = useState(true);
+
     const getCurrentPagePath = () => {
-        const loc = window.location.pathname.replaceAll("/","");
-        return loc==""?"home":loc;
+        return location=="/"?"home":location.replaceAll("/","");
     }
+
+    useEffect(()=>{
+        if(location == "/menu") {
+            setBottomText("");
+            setShowLocation(false);
+            setTopText("click on box to open page")
+        } else {
+            setShowLocation(true);
+        }
+    },[location])
+
+
 
   return (
     <div>
@@ -16,7 +33,8 @@ export default function Status(props:any) {
                 style={{
                     position: "absolute",
                     top: "2ch",
-                    left: "2ch"
+                    left: "2ch",
+                    lineHeight: 1,
                 }}
             >Ahan</span>
             <span
@@ -24,24 +42,33 @@ export default function Status(props:any) {
                     position: "absolute",
                     top: "4ch",
                     right: "4ch",
-                    fontSize: "0.5rem"
+                    fontSize: "0.5rem",
+                    lineHeight: 1
                 }}
-            >Swipe right to begin</span>
+            >{topText}</span>
             <span
                 style={{
                     position: "absolute",
                     bottom: "4ch",
                     left: "4ch",
-                    fontSize: "0.5rem"
+                    fontSize: "0.5rem",
+                    lineHeight: 1
                 }}
-            >{getCurrentPagePath()}</span>
+            >{showLocation?getCurrentPagePath():""}</span>
             <span
                 style={{
                     position: "absolute",
                     bottom: "2ch",
-                    right: "2ch"
+                    right: "2ch",
+                    lineHeight: 1
                 }}
-            >Next</span>
+                onClick={()=>{
+                    console.log("Changing page")
+                    const nextPage = findNext(location);
+                    console.log(nextPage);
+                    props.setLocation(nextPage.path);
+                }}
+            >{bottomText}</span>
         </div>
         <pagePadding.Provider value={{x:"2ch", y:"4ch"}} >
             {props.children}
