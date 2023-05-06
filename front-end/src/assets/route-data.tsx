@@ -36,9 +36,18 @@ export interface JSONObject {
   }
 
 export const backgroundColours: JSONObject = {
-    "/":"#fff",
-    "/projects":"#aaa",
-    "/skills":"#bbb",
-    "/achievements": "#999",
-    "/more": "#777",
+    "/":"#ff9a2c",
+    "/projects":"#ffe238",
+    "/skills":"#e79342",
+    "/achievements": "#ffd540",
+    "/more": "#da9627",
+}
+
+export enum LocationNames {
+    home = "/",
+    projects = "/projects",
+    skills = "/skills",
+    achievements = "/achievements",
+    more = "/more",
+    menu = "/menu"
 }

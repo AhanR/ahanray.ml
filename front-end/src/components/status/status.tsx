@@ -1,27 +1,49 @@
 import { createContext, useEffect, useState } from "react"
 import styles from "./status.module.css"
 import { findNext } from "../Routing/router";
+import { useSelector, useDispatch } from  "react-redux"
+import { LocationState, changeLocation } from "../../stores/locationSlices";
+import { LocationNames } from "../../assets/route-data";
+import { replaceSlash } from "../../utils/replace";
+
 
 export const pagePadding = createContext({x:"2ch", y:"4ch"})
 export default function Status(props:any) {
 
-    let location = props.location;
+    const location = useSelector((state: LocationState)=>state.location);
+    const dispatcher = useDispatch();
+
     const [bottomText, setBottomText] = useState("next");
+    const [showBottomText, setShowBottomText] = useState(true);
     const [topText, setTopText] = useState("scroll down for next page")
     const [showLocation, setShowLocation] = useState(true);
 
     const getCurrentPagePath = () => {
-        return location=="/"?"home":location.replaceAll("/","");
+        return location==LocationNames.home?"home":replaceSlash(location);
     }
 
+    // set the button to menu when the next page is menu, set the button to menu after that and next link should project to menu
     useEffect(()=>{
-        if(location == "/menu") {
-            setBottomText("");
+        if(location == LocationNames.menu) {
+            setShowBottomText(false);
             setShowLocation(false);
             setTopText("click on box to open page")
         } else {
             setShowLocation(true);
+            // count the rounds since start and insert here
+            if(topText == "click on box to open page") {
+                setTopText("swipe to get to menu")
+            }
+            setShowBottomText(true);
+            
+            if(findNext(location).path == LocationNames.menu) {
+                setTopText("fin.");
+                setBottomText("menu");
+            } else {
+                setBottomText("next");
+            }
         }
+
     },[location])
 
 
@@ -55,20 +77,23 @@ export default function Status(props:any) {
                     lineHeight: 1
                 }}
             >{showLocation?getCurrentPagePath():""}</span>
-            <span
+            {showBottomText?(<span
                 style={{
                     position: "absolute",
                     bottom: "2ch",
                     right: "2ch",
-                    lineHeight: 1
+                    lineHeight: 1,
+                    pointerEvents: "all"
                 }}
                 onClick={()=>{
-                    console.log("Changing page")
-                    const nextPage = findNext(location);
-                    console.log(nextPage);
-                    props.setLocation(nextPage.path);
+                    if(bottomText == "menu"){
+                        dispatcher(changeLocation(LocationNames.menu));
+                    } else {
+                        const page = findNext(location);
+                        dispatcher(changeLocation(page.path));
+                    }
                 }}
-            >{bottomText}</span>
+            >{bottomText}</span>):""}
         </div>
         <pagePadding.Provider value={{x:"2ch", y:"4ch"}} >
             {props.children}

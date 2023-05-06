@@ -10,11 +10,11 @@ export default function Background(props : Props) {
     return (
     <motion.div
         className={styles.background}
-        style={{
+        initial={{ opacity: 0 }}
+        animate={{
+            opacity: 1,
             background: props.background,
         }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
         exit={{ opacity: 1 }}
     >
         {" "}

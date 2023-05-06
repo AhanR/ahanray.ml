@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import { pages } from "../../assets/route-data";
-
-interface Props {
-    location : String
-}
-
-
+import { useSelector } from 'react-redux';
 
 export const findNext = (loc: string) => {
     for(let pi = 0; pi < pages.length; pi++) {
         const page = pages[pi];
-        console.log(loc);
         if(page.path == loc) {
             return pages[(pi+1)%pages.length];
         }
@@ -18,12 +12,14 @@ export const findNext = (loc: string) => {
     return pages[0];
 }
 
-export default function Router( { location } : Props ) {
+export default function Router() {
+
+    const location = useSelector((state: any) => state.location);
 
     useEffect(()=>{
-        console.log("here",location);
-        const page = pages.filter(page => page.path == location)[0];
-        console.log(page);
+        const page = pages.filter(page => {
+            return page.path == location;
+        })[0];
         setCurrentPage(page.element);
     },[location]);
 

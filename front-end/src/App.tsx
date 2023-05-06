@@ -1,27 +1,37 @@
 import Menu from "./components/menu/menu";
 import Status from "./components/status/status";
 import Router from "./components/Routing/router";
+import Background from "./components/background/background";
+import { LocationNames, backgroundColours } from "./assets/route-data";
+import { LocationState, changeLocation } from "./stores/locationSlices";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import Background from "./components/background/background";
-import { backgroundColours } from "./assets/route-data";
+import { useSelector, useDispatch } from "react-redux";
 
 function App() {
 
-  const [location, setLocation] = useState("/");
-  const [backgroundColour, setBackgroundColour] = useState<string>("");
+  // getting the location from the global store and creating a new function to set the global location
+  const location = useSelector((state: LocationState)=> state.location);
+  const dispatcher = useDispatch();
+  const setLocation = (loc:string)=>{
+    dispatcher(changeLocation(loc));
+  }
 
+  // background colour maintained to change the background object
+  const [backgroundColour, setBackgroundColour] = useState<string>(backgroundColours[LocationNames.home]);
+
+  // changing background colours on location change
   useEffect(()=>{
     setBackgroundColour(backgroundColours[location])
   },[location]);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false} >
         <Status setLocation={setLocation}  location={location} >
-          <AnimatePresence>
-            <Router location={location}/>
+          <AnimatePresence initial={false}>
+            <Router/>
           </AnimatePresence>
-          {location=="/menu"?"":<Background background={backgroundColour} />}
+          {location==LocationNames.menu?"":<Background background={backgroundColour} />}
           <Menu/>
         </Status>
     </AnimatePresence>

@@ -1,3 +1,4 @@
+import ButtonLink from "../buttonLink/buttonLink"
 import styles from "./menu.module.css"
 
 export default function Menu() {
@@ -5,7 +6,9 @@ export default function Menu() {
     <div
       className={styles.menuContainer}
     >
-      Menu
+      <ButtonLink to="/">
+        click me
+      </ButtonLink>
     </div>
   )
 }

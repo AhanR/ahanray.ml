@@ -7,4 +7,5 @@
     padding: 2ch;
     z-index: 1000;
     box-sizing: border-box;
+    pointer-events: none;
 }
