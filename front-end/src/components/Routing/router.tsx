@@ -6,7 +6,17 @@ export const findNext = (loc: string) => {
     for(let pi = 0; pi < pages.length; pi++) {
         const page = pages[pi];
         if(page.path == loc) {
-            return pages[(pi+1)%pages.length];
+            return pages[(pi+1)%(pages.length)];
+        }
+    }
+    return pages[0];
+}
+
+export const findPrev = (loc : string) => {
+    for(let pi = 0; pi < pages.length; pi++) {
+        const page = pages[pi];
+        if(page.path == loc) {
+            return pages[Math.max((pi - 1)%(pages.length),0)];
         }
     }
     return pages[0];

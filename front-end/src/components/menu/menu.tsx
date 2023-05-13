@@ -6,8 +6,11 @@ export default function Menu() {
     <div
       className={styles.menuContainer}
     >
-      <ButtonLink to="/">
-        click me
+      <ButtonLink
+        to="/"
+        className={styles.home}  
+      >
+        Hi
       </ButtonLink>
     </div>
   )

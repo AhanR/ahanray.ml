@@ -22,6 +22,8 @@ export default function Status(props:any) {
         return location==LocationNames.home?"home":replaceSlash(location);
     }
 
+    const extraStyle = { color: "white" }
+
     // set the button to menu when the next page is menu, set the button to menu after that and next link should project to menu
     useEffect(()=>{
         if(location == LocationNames.menu) {
@@ -50,7 +52,10 @@ export default function Status(props:any) {
 
   return (
     <div>
-        <div className={styles.statusOverlay}>
+        <div
+            className={styles.statusOverlay}
+            style={location==LocationNames.menu?extraStyle:{}}
+        >
             <span
                 style={{
                     position: "absolute",
