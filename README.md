@@ -1,4 +1,4 @@
-# [Ahan.ml](https://ahan.ml)
+# [ahanray.ml](https://ahanray.ml)
 I have made this website while trying to keep user-experience at the centre of my design
 
 ## screenshots of the webpage on desktop<br>
