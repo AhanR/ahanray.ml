@@ -2,7 +2,7 @@ import Menu from "./components/menu/menu";
 import Status from "./components/status/status";
 import Router from "./components/Routing/router";
 import Background from "./components/background/background";
-import { LocationNames, backgroundColours } from "./assets/route-data";
+import { LocationNames, backgroundColours } from "./data/route-data";
 import { LocationState, changeLocation } from "./stores/locationSlices";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -18,7 +18,7 @@ function App() {
   }
 
   // background colour maintained to change the background object
-  const [backgroundColour, setBackgroundColour] = useState<string>(backgroundColours[LocationNames.home]);
+  const [backgroundColour, setBackgroundColour] = useState<string>("#ffffff");
 
   // changing background colours on location change
   useEffect(()=>{

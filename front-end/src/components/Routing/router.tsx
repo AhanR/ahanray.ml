@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { pages } from "../../assets/route-data";
+import { pages } from "../../data/route-data";
 import { useSelector } from 'react-redux';
 
 export const findNext = (loc: string) => {

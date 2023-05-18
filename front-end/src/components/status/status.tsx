@@ -3,7 +3,7 @@ import styles from "./status.module.css"
 import { findNext } from "../Routing/router";
 import { useSelector, useDispatch } from  "react-redux"
 import { LocationState, changeLocation } from "../../stores/locationSlices";
-import { LocationNames } from "../../assets/route-data";
+import { LocationNames } from "../../data/route-data";
 import { replaceSlash } from "../../utils/replace";
 
 
@@ -57,11 +57,15 @@ export default function Status(props:any) {
             style={location==LocationNames.menu?extraStyle:{}}
         >
             <span
+                onClick={()=>{
+                    dispatcher(changeLocation(LocationNames.menu));
+                }}
                 style={{
                     position: "absolute",
                     top: "2ch",
                     left: "2ch",
                     lineHeight: 1,
+                    pointerEvents: "all"
                 }}
             >Ahan</span>
             <span

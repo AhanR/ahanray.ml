@@ -1,0 +1,22 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.bigText {
+    font-size: 3em;
+    line-height: 1.15;
+    -webkit-text-stroke: 2px black;
+    color: transparent;
+}
+
+.midText {
+    font-size: 0.85em;
+}
+
+.smallText {
+    font-size: 0.5em;
+}

@@ -16,47 +16,55 @@ export default function PageWrapper(props : any) {
   const dispatcher = useDispatch();
   const location  = useSelector((state: LocationState)=> state.location);
 
-  const panClip = 200;
+  const panClip = 50;
 
-  return (
-    <motion.div
-      className={styles.pageComponent}
-      style={{
-        padding: `${padding.y} ${padding.x}`
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      whileTap={{ opacity: 1-Math.sin(panAmount/panClip*Math.PI/2) }}
-      exit={{ opacity:0 }}
-      onPanStart={(e,i)=>{
-        e.stopPropagation();
-        setPanStartCords({x:i.point.x, y: i.point.y});
-        console.log("pan started");
-      }}
-      onPan={(e,i)=>{
-        e.stopPropagation();
-        const dist = Math.sqrt(Math.pow((panStartCords.x - i.point.x),2) + Math.pow((panStartCords.y - i.point.y),2));
-        setPanAmount(Math.min(dist,panClip));
-      }}
-      onPanEnd={(e,i)=>{
-        e.stopPropagation();
-        const dist = Math.sqrt(Math.pow((panStartCords.x - i.point.x),2) + Math.pow((panStartCords.y - i.point.y),2));
-        setPanAmount(Math.min(dist,panClip));
-        // if the panning is over, then check if over 50% of the clip amount is travelled then change page, else return it back to init
+  const changePage = (y : number)=>{
+    // if the panning is over, then check if over 50% of the clip amount is travelled then change page, else return it back to init
         // if the point is lower than the initial point, go previous page, else next page
-        if(panAmount/panClip > 0.9) {
-          // next page
-          // scrolled down
-          if(panStartCords.y < i.point.y){
-            console.log("scroll down, prev");
+        if(Math.abs(panAmount/panClip) > 0.9) {
+          if(panStartCords.y < y){
             dispatcher(changeLocation(findPrev(location).path))
-            console.log(location);
           } else {
-            console.log("Scroll up, next");
             dispatcher(changeLocation(findNext(location).path))
           }
         }
         setPanAmount(0);
+  }
+
+  return (
+    <motion.div
+      className={styles.pageComponent + " " + props.className}
+      style={{
+        padding: `${padding.y} ${padding.x}`,
+        ...props.style
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1-Math.sin(panAmount/panClip*Math.PI/2) }}
+      exit={{ opacity:0 }}
+      onPanStart={(e,i)=>{
+        e.stopPropagation();
+        setPanStartCords({x:i.point.x, y: i.point.y});
+      }}
+      onPan={(e,i)=>{
+        e.stopPropagation();
+        setPanAmount(Math.min(-panClip,Math.max(panClip, panAmount+i.delta.y)));
+      }}
+      onPanEnd={(e,i)=>{
+        e.stopPropagation();
+        setPanAmount(Math.min(-panClip,Math.max(panClip, panAmount+i.delta.y)))
+        // change the page
+        changePage(i.point.y);
+      }}
+      onViewportEnter={props.onViewportEnter}
+      drag="y"
+      dragConstraints={{top:0, bottom: 0}}
+      dragTransition={{ bounceStiffness: 800, bounceDamping: 20 }}
+
+      // add the same page transition functions here too
+      onWheel={(e)=>{
+        // console.log(e);
+        setPanAmount(Math.max(-panClip ,Math.min(panClip ,panAmount+e.deltaY)));
+        console.log(panAmount)
       }}
     >
       <div className={props.className} style={props.style} >
