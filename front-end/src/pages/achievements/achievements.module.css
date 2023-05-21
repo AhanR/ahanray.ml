@@ -1,103 +1,70 @@
 .wrapper {
     display: flex;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center;
-}
-
-.searchContainer {
-    height: 60vh;
-    width: 100%;
-    border-radius: 20px;
-    border: 3px black solid;
-    overflow: hidden;
-    position: relative;
-}
-
-.header {
-    width: 100%;
-    padding: 2ch 1ch 1ch 1ch;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px 20px 0 0;
+    padding: 0;
     box-sizing: border-box;
-    display: grid;
-    grid-template-columns: 1fr 2ch;
 }
 
-.input {
-    font-family: inherit;
-    color: inherit;
-    background: none;
-    border: none;
-    font-size: 0.75rem;
+.selectedType {
+    background: rgba(255, 255, 255, 0.2) !important;
 }
 
-.searchResults {
-    width: 100%;
-    height: 1fr;
+.topButtons {
+    margin-bottom: 0.75ch;
 }
 
-.result {
-    font-size: 0.75rem;
-    padding: 1ch;
-    border-top: 2px solid black;
-}
-
-.topics {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row;
-    margin-bottom: 1ch;
-}
-
-.topics > button {
-    margin: 1ch 1ch 0 0;
-    color: inherit;
-    font-family: inherit;
-    background: none;
-    border-radius: 20px;
-    border: 2px solid black;
-}
-
-.description {
+.topButtons>button {
+    border-radius: 14px;
+    border: black 3px solid;
+    padding: 0.5ch;
+    font: inherit;
     font-size: 0.5rem;
-
-}
-
-.title {
-    text-decoration: underline;
-    margin-bottom: 1ch;
-    text-decoration: none;
+    margin-right: 1ch;
+    background: transparent;
     transition: 0.3s;
 }
 
-@keyframes underline {
-    0% {
-        text-decoration: underline;
-    }
-    50% {
-        text-decoration: underline;
-    }
-    100% {
-        text-decoration: underline;
-    }
+.explorer {
+    border: 3px black solid;
+    border-radius: 19px;
+    padding: 0;
+    margin: 0;
 }
 
-.title:hover {
-    animation: underline 1s 1;
-}
-
-.more {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 1ch 2ch;
-    font-size: 0.5rem;
+.header {
+    display: grid;
+    grid-template-columns: 1fr 5ch;
+    align-items: end;
+    font-size: 0.75rem;
+    padding: 1ch 1ch;
     box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 0 0 20px 20px;
+}
+
+.controls {
+    font-size: 0.58rem;
+    text-align: center;
+}
+
+.buttons>button{
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 100;
+}
+
+.data {
+    height: 53vh;
     border-top: 2px black solid;
+}
+
+.iframe {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-radius: 0 0 19px 19px;
 }

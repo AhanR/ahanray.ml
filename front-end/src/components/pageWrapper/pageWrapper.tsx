@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import styles from './pageWrapper.module.css';
 import { pagePadding } from '../status/status';
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux';
 import { LocationState, changeLocation } from '../../stores/locationSlices';
 import { findPrev, findNext } from '../Routing/router';
+import { LocationNames } from '../../data/route-data';
 
 export default function PageWrapper(props : any) {
 
@@ -31,6 +32,29 @@ export default function PageWrapper(props : any) {
         setPanAmount(0);
   }
 
+  let onWheelTimeOut : NodeJS.Timeout;
+  const changePageOnWheel = useCallback((scrollAmount : number)=>{
+    clearTimeout(onWheelTimeOut);
+    onWheelTimeOut = setTimeout(()=>{
+      if(scrollAmount/panClip > 0.1) {
+        dispatcher(changeLocation(findNext(location).path))
+      } else if (scrollAmount/panClip < -0.1) {
+        dispatcher(changeLocation(findPrev(location).path))
+      }
+      setPanAmount(0);
+    },30);
+  },[])
+
+  window.onkeydown = (e) => {
+    if(e.key == "ArrowUp") {
+      dispatcher(changeLocation(findPrev(location).path))
+    } else if (e.key == "ArrowDown") {
+      dispatcher(changeLocation(findNext(location).path))
+    } else if (e.key == "ArrowRight") {
+      dispatcher(changeLocation(LocationNames.menu))
+    }
+  }
+
   return (
     <motion.div
       className={styles.pageComponent + " " + props.className}
@@ -39,7 +63,7 @@ export default function PageWrapper(props : any) {
         ...props.style
       }}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1-Math.sin(panAmount/panClip*Math.PI/2) }}
+      animate={{ opacity: 1-Math.sin(Math.abs(panAmount)/panClip*Math.PI/2) }}
       exit={{ opacity:0 }}
       onPanStart={(e,i)=>{
         e.stopPropagation();
@@ -64,7 +88,7 @@ export default function PageWrapper(props : any) {
       onWheel={(e)=>{
         // console.log(e);
         setPanAmount(Math.max(-panClip ,Math.min(panClip ,panAmount+e.deltaY)));
-        console.log(panAmount)
+        changePageOnWheel(panAmount);
       }}
     >
       <div className={props.className} style={props.style} >

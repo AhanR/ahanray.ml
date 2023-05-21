@@ -1,69 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageWrapper from "../../components/pageWrapper/pageWrapper";
-import styles from "./achievements.module.css";
+import styles from "./achievements.module.css"
+import { getData, skillTypes } from "../../data/manager";
+import { LocationNames } from "../../data/route-data";
 
-interface Data {
-  key : string,
-  title : string,
-  topics : Array<string>,
-  description : string
-}
+export default function Skills() {
 
-export default function Achievements() {
+  const masterData = getData(LocationNames.achievements);
 
-  const [searchKey, setSearchKey] = useState("All projects");
+  const [skillType, setSkillType] = useState(skillTypes.certification)
+  const [currentContext, setCurrentContext] = useState(masterData[skillType]);
+  const [contextIndex, setContextIndex] = useState(0);
 
-  const data : Array<Data> = [
-    {
-      key : "1",
-      title : "This is the project title",
-      topics : ["topic 1", "topic 2"],
-      description : "This is the description for the fake project that I have built" 
-    },
-    {
-      key : "2",
-      title : "This is the project title",
-      topics : ["topic 1", "topic 2"],
-      description : "This is the description for the fake project that I have built" 
-    },
-  ]
+  useEffect(()=>{
+    setCurrentContext(masterData[skillType]);
+    setContextIndex(0);
+  }, [skillType]);
+
 
   return (
     <PageWrapper
-      className = {styles.wrapper}
+      className={styles.wrapper}
     >
-      <div className={styles.searchContainer}>
-        <form 
-          className={styles.header}
-          onSubmit={e=>{
-            e.preventDefault();
-            // put search function
+      <div className={styles.topButtons}>
+        <button
+          className={skillType==skillTypes.certification? styles.selectedType : ""} 
+          onClick={()=>{
+            setSkillType(skillTypes.certification);
           }}
         >
-          <input
-            className={styles.input}
-            type="text"
-            value={searchKey}
-            onChange={e=>setSearchKey(e.target.value)}
-          />
-          <button>S</button>
-        </form>
-        <div className={styles.searchResults}>
-          {data.map(dat=>(<div 
-            className={styles.result}
-            key={dat.key}
+          certifications
+        </button>
+        <button 
+          className={skillType==skillTypes.experience? styles.selectedType : ""}
+          onClick={()=>{
+            setSkillType(skillTypes.experience);
+          }}
+        >
+          experiences
+        </button>
+      </div>
+      <div className={styles.explorer}>
+        <div className={styles.header}>
+          <span
+            className={styles.title}
           >
-            <div className={styles.title} >{dat.title}</div>
-            <div className={styles.topics}>
-              {dat.topics.map(topic=>(
-                <button>{topic}</button>
-              ))}
+            {currentContext[contextIndex].title}
+          </span>
+          <div className={styles.controls}>
+            <div className={styles.buttons}>
+              <button
+                onClick={()=>setContextIndex((contextIndex-1+currentContext.length)%currentContext.length)}
+              >{"<"}</button>
+              <button
+                onClick={()=>setContextIndex((contextIndex+1)%currentContext.length)}
+              >{">"}</button>
             </div>
-            <div className={styles.description}>
-              {dat.description}
-            </div>
-          </div>))}
-          <div className={styles.more}>5 more</div>
+            <span>{contextIndex+1} of {currentContext.length}</span>
+          </div>
+        </div>
+        <div className={styles.data}>
+          <iframe 
+            src= {currentContext[contextIndex].url}
+            // frameBorder="0"
+            className={styles.iframe}
+          >
+          </iframe>
         </div>
       </div>
     </PageWrapper>

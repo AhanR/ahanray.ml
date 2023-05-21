@@ -10,16 +10,16 @@ export const pages = [
         element: <Home/>,
     },
     {
-        path: "/projects",
-        element: <Projects/>,
-    },
-    {
         path: "/skills",
         element: <Skills/>,
     },
     {
         path: "/achievements",
         element: <Achievements/>,
+    },
+    {
+        path: "/projects",
+        element: <Projects/>,
     },
     {
         path: "/more",
@@ -37,9 +37,9 @@ export interface JSONObject {
 
 export const backgroundColours: JSONObject = {
     "/":"#ff9a2c",
-    "/projects":"#ffe238",
-    "/skills":"#e79342",
-    "/achievements": "#ffd540",
+    "/skills":"#ffe238",
+    "/achievements":"#e79342",
+    "/projects": "#ffd540",
     "/more": "#da9627",
 }
 

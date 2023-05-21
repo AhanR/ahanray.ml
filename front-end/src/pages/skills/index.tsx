@@ -1,61 +1,76 @@
-import { useState } from "react";
 import PageWrapper from "../../components/pageWrapper/pageWrapper";
+import { SkillData, getData } from "../../data/manager";
+import { LocationNames } from "../../data/route-data";
 import styles from "./skills.module.css"
+import { useState, useEffect, useCallback } from 'react'; 
+import debounce from "lodash.debounce";
+import { motion } from "framer-motion";
 
-enum skillTypes {
-  certification = "certification",
-  experience = "experience"
-}
+export default function Projects() {
 
-export default function Skills() {
+  const masterData : Array<SkillData> = getData(LocationNames.skills);
+  const [data, setData] = useState(masterData.slice(0,4));
+  const [searchKey, setSearchKey] = useState("code");
 
-  const [skillType, setSkillType] = useState(skillTypes.certification)
+  const search = useCallback(debounce((searchKey:string)=>{
+    // do search
+    if(searchKey != "") {
+      searchKey = searchKey.toLowerCase();
+      let searchResult : Array<{dataPoint : SkillData, score: number}> = [];
+      for(let dataPoint of masterData) {
+        const searchBody = dataPoint.title.toLowerCase() + " " + dataPoint.tags.join(" ").toLowerCase();
+        let score = Array.from(searchBody.matchAll(RegExp(searchKey,"g"))).length;
+        searchResult.push({dataPoint : dataPoint, score : score});
+        if(searchResult.length > 4) {
+          searchResult = searchResult.sort((a,b)=>a.score < b.score ? 1 : -1);
+          searchResult = searchResult.splice(0,4);
+        }
+      }
+      let tops = [];
+      for(let r of searchResult) tops.push(r.dataPoint);
+      setData(tops);
+    } 
+
+  },500),[])
+
+  useEffect(()=>{
+    search(searchKey);
+  }, [searchKey])
 
   return (
     <PageWrapper
       className={styles.wrapper}
     >
-      <div className={styles.topButtons}>
-        <button
-          className={skillType==skillTypes.certification? styles.selectedType : ""} 
-          onClick={()=>{
-            setSkillType(skillTypes.certification);
-          }}
+      <div
+        className={styles.wrapperContent}
+      >
+        <motion.div 
+          initial={{opacity:0}}
+          animate={{opacity:1}}
+          exit={{opacity:0}}
+          className={styles.questionWrapper}
         >
-          certifications
-        </button>
-        <button 
-          className={skillType==skillTypes.experience? styles.selectedType : ""}
-          onClick={()=>{
-            setSkillType(skillTypes.experience);
-          }}
-        >
-          experiences
-        </button>
-      </div>
-      <div className={styles.explorer}>
-        <div className={styles.header}>
-          <span
-            className={styles.title}
+          <div
+            className={styles.question}
           >
-            This is the title
-          </span>
-          <div className={styles.controls}>
-            <div className={styles.buttons}>
-              <button>{"<"}</button>
-              <button>{">"}</button>
-            </div>
-            <span>1 of 9</span>
+            Can Ahan
           </div>
-        </div>
-        <div className={styles.data}>
-          <iframe 
-            src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~2S6TDQN6EV8K/CERTIFICATE_LANDING_PAGE~2S6TDQN6EV8K.jpeg"
-            // frameBorder="0"
-            className={styles.iframe}
-          >
-          </iframe>
-        </div>
+          <input
+            className={styles.blank}
+            value={searchKey}
+            onChange={e=>setSearchKey(e.target.value)}
+          />
+        </motion.div>
+        <motion.div
+          className={styles.answerWrapper}
+          initial={{ height: 0 }}
+          animate={{ height: 'max-content' }}
+        >
+          <div
+            className={styles.resultHeader}
+          >As legend has it, Ahan can</div>
+          {data.map(dat=>(<div className={styles.resultOption} >{dat.title}</div>))}
+        </motion.div>
       </div>
     </PageWrapper>
   )
