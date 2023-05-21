@@ -111,6 +111,12 @@ let data : Data = {
 
 }
 
+export const links = {
+    github : "https://github.com/ahanr",
+    linkedin : "https://linkedin.com/in/ahanr",
+    mail : "mailto:ahanray@duck.com"
+}
+
 // dictionary type data accessing
 export const getData = (str : LocationNames) => {
     return data[str];

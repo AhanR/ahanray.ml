@@ -42,11 +42,13 @@ export default function Skills() {
       </div>
       <div className={styles.explorer}>
         <div className={styles.header}>
-          <span
+          <a
             className={styles.title}
+            href={currentContext[contextIndex].url}
+            target="_blank"
           >
             {currentContext[contextIndex].title}
-          </span>
+          </a>
           <div className={styles.controls}>
             <div className={styles.buttons}>
               <button

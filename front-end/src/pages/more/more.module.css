@@ -1,0 +1,16 @@
+.links > img {
+    width: 0.75rem;
+    margin : 1ch 1ch 0 0;
+}
+
+.about {
+    font-size: 0.75rem;
+}
+
+.stats {
+    margin: 1ch 0 0 0;
+}
+
+.tech {
+    font-size: 1.5rem;
+}

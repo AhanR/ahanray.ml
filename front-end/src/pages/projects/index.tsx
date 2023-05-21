@@ -4,6 +4,8 @@ import styles from "./projects.module.css";
 import debounce from "lodash.debounce";
 import { ProjectData, getData } from "../../data/manager";
 import { LocationNames } from "../../data/route-data";
+import searchIcon from "../../icons/searchIcon.svg";
+import { motion } from "framer-motion";
 
 export default function Achievements() {
 
@@ -70,7 +72,11 @@ export default function Achievements() {
     <PageWrapper
       className = {styles.wrapper}
     >
-      <div className={styles.searchContainer}>
+      <motion.div 
+        className={styles.searchContainer}
+        initial={{ height: 0 }}
+        animate={{ height: "max-content" }}
+      >
         <form 
           className={styles.header}
           onSubmit={e=>{
@@ -87,7 +93,9 @@ export default function Achievements() {
             id = "searchBox"
             autoComplete="off"
           />
-          <label htmlFor="searchBox">S</label>
+          <label htmlFor="searchBox">
+            <img src={searchIcon} alt="Search" />
+          </label>
         </form>
         <div className={styles.searchResults}>
           {data.map(dat=>(<div 
@@ -111,7 +119,7 @@ export default function Achievements() {
           </div>))}
           {moreResults>2&&<div className={styles.more}>{moreResults-2} more</div>}
         </div>
-      </div>
+      </motion.div>
     </PageWrapper>
   )
 }

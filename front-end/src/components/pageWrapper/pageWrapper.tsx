@@ -12,6 +12,7 @@ export default function PageWrapper(props : any) {
   const padding = useContext(pagePadding)
 
   const [panAmount, setPanAmount] = useState(0);
+  const [panMenu, setPanMenu] = useState(0);
   const [panStartCords, setPanStartCords] = useState({ x:0, y:0 })
 
   const dispatcher = useDispatch();
@@ -22,7 +23,11 @@ export default function PageWrapper(props : any) {
   const changePage = (y : number)=>{
     // if the panning is over, then check if over 50% of the clip amount is travelled then change page, else return it back to init
         // if the point is lower than the initial point, go previous page, else next page
-        if(Math.abs(panAmount/panClip) > 0.9) {
+        console.log(panMenu)
+        if (panMenu/panClip > 0.9) {
+          // get to menu
+          console.log("go to menu");
+        } else if(Math.abs(panAmount/panClip) > 0.9) {
           if(panStartCords.y < y){
             dispatcher(changeLocation(findPrev(location).path))
           } else {
@@ -71,7 +76,12 @@ export default function PageWrapper(props : any) {
       }}
       onPan={(e,i)=>{
         e.stopPropagation();
-        setPanAmount(Math.min(-panClip,Math.max(panClip, panAmount+i.delta.y)));
+        // if the delta x is greater, set x, else y
+        if(Math.abs(i.delta.x) <= Math.abs(i.delta.y)) {
+          setPanAmount(Math.min(-panClip,Math.max(panClip, panAmount+i.delta.y)));
+        } else {
+          setPanMenu(Math.max(-panClip,Math.min(panClip, panAmount+i.delta.x)));
+        }
       }}
       onPanEnd={(e,i)=>{
         e.stopPropagation();
