@@ -4,11 +4,18 @@ import Router from "./components/Routing/router";
 import Background from "./components/background/background";
 import { LocationNames, backgroundColours } from "./data/route-data";
 import { LocationState, changeLocation } from "./stores/locationSlices";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo} from "react";
 import { AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
+import { fetchDataFromStore } from "./data/manager";
 
 function App() {
+
+  // call the firebase data store as soon as the function loads  
+  useMemo(()=>{
+    console.log("getting the data");
+    fetchDataFromStore();
+  },[])
 
   // getting the location from the global store and creating a new function to set the global location
   const location = useSelector((state: LocationState)=> state.location);

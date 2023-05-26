@@ -43,7 +43,7 @@ export default function Skills() {
       <div className={styles.explorer}>
         <div className={styles.header}>
           <a
-            className={styles.title}
+            className={styles.title + " " + styles.clamp}
             href={currentContext[contextIndex].url}
             target="_blank"
           >

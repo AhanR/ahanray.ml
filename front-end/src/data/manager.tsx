@@ -1,4 +1,6 @@
+import { firebaseApp } from "../utils/firebase"
 import { LocationNames } from "./route-data"
+import { collection, getFirestore, getDocs} from 'firebase/firestore'
 
 interface Data {
     [k:string] : Array<ProjectData> | AchievementData | Array<SkillData> | any
@@ -10,6 +12,7 @@ export interface ProjectData {
     topics : Array<string>,
     description : string,
     priority : number,
+    url?: string,
 }
 
 export interface AchievementRecord {
@@ -38,6 +41,7 @@ let data : Data = {
         title : "This is the project title with higher priority",
         topics : ["topic 1", "topic 2"],
         description : "This is the description for the fake project that I have built",
+        url : "https://ahan.epizy.com",
         priority : 3
     },
     {
@@ -120,4 +124,40 @@ export const links = {
 // dictionary type data accessing
 export const getData = (str : LocationNames) => {
     return data[str];
+}
+
+export const fetchDataFromStore = async () => {
+    const firestoreRef = getFirestore(firebaseApp);
+    
+    // make this json more suitable for the final upload for achievements
+    const achievementCertificationData = await getDocs(collection(firestoreRef, "MainWebsiteAchievementsData", "Data", "Certifications"));
+    const achievementExperiencesnData = await getDocs(collection(firestoreRef, "MainWebsiteAchievementsData", "Data", "Experiences"));
+    let achievementData : AchievementData = {
+        "certification" : [],
+        "experience" : []
+    }
+    let tempAchievements : Array<AchievementRecord> = [];
+    achievementCertificationData.forEach(elm=>tempAchievements.push({url : elm.data()["URL"], title : elm.data()["Title"]}));
+    achievementData["certification"] = tempAchievements;
+    tempAchievements = [];
+    achievementExperiencesnData.forEach(elm=>tempAchievements.push({url : elm.data()["URL"], title : elm.data()["Title"]}));
+    achievementData["experience"] = tempAchievements;
+    
+    // format skills data
+    const skillsData = await getDocs(collection(firestoreRef, "MainWebsiteSkillsData"));
+    let tempSkills : Array<SkillData>= [];
+    skillsData.forEach(elm => tempSkills.push({ title : elm.data()["title"], tags : elm.data()["tags"] }))
+
+    // format projects data
+    const projectsData = await getDocs(collection(firestoreRef, "MainWebsiteProjectsData"));
+    let tempProjects : Array<ProjectData> = [];
+    projectsData.forEach(elm => tempProjects.push({ key : elm.data()["key"], title : elm.data()["title"], topics : elm.data()["topics"], description : elm.data()["description"], priority : elm.data()["priority"] , url: elm.data()["url"] }))
+
+    // add all the data to the dictionary and add more values to the front end
+    data[LocationNames.projects] = tempProjects;
+    data[LocationNames.achievements] = achievementData;
+    data[LocationNames.skills] = tempSkills;
+
+    // test the data
+    console.log(data);
 }

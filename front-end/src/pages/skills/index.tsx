@@ -69,7 +69,7 @@ export default function Projects() {
           <div
             className={styles.resultHeader}
           >As legend has it, Ahan can</div>
-          {data.map(dat=>(<div className={styles.resultOption} >{dat.title}</div>))}
+          {data.map(dat=>(<div className={styles.resultOption} key={dat.title} >{dat.title}</div>))}
         </motion.div>
       </div>
     </PageWrapper>
