@@ -1,7 +1,6 @@
 import { LocationNames } from "../../data/route-data"
 import ButtonLink from "../buttonLink/buttonLink"
 import styles from "./menu.module.css"
-import education from "../../icons/educationIcon.svg"
 import code from "../../icons/codeIcon.svg"
 import moreIcon from "../../icons/moreIcon.svg"
 import { pagePadding } from "../status/status"

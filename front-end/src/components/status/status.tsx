@@ -7,8 +7,12 @@ import { LocationNames } from "../../data/route-data";
 import { replaceSlash } from "../../utils/replace";
 
 
-export const pagePadding = createContext({x:"2ch", y:"4ch"})
+const aspectRato = 1;
+const pagePaddingValue = (window.innerHeight > aspectRato*window.innerWidth)? {x:"2ch", y:"4ch"} : {x: `${window.innerWidth/2 - 9*(window.innerHeight-40)/32}px`, y: "4ch"};
+export const pagePadding = createContext(pagePaddingValue);
+
 export default function Status(props:any) {
+
 
     const location = useSelector((state: LocationState)=>state.location);
     const dispatcher = useDispatch();
@@ -104,7 +108,7 @@ export default function Status(props:any) {
                 }}
             >{bottomText}</span>):""}
         </div>
-        <pagePadding.Provider value={{x:"2ch", y:"4ch"}} >
+        <pagePadding.Provider value={pagePaddingValue} >
             {props.children}
         </pagePadding.Provider>
     </div>
